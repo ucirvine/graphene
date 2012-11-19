@@ -1,7 +1,7 @@
 function statsSourceUrl(target, opts) {
   opts = opts || {};
   from = opts.from || "-1hour";
-  "http://stats.oit.uci.edu:8080/render/?from=" + from + "&format=json&_salt=1352477600.709&target=stats_counts.recruit." + target;
+  return "http://stats.oit.uci.edu:8080/render/?from=" + from + "&format=json&_salt=1352477600.709&target=stats_counts.recruit." + target;
 }
 
 (function() {
