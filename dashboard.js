@@ -8,7 +8,7 @@ function statsSourceUrl(target, opts) {
   description = {
 
     "# Requests": {
-      source: statsSourceUrl("requests")
+      source: statsSourceUrl("requests"),
       TimeSeries: {
         parent: '#g1-1',
         title: "# requests"
@@ -16,7 +16,7 @@ function statsSourceUrl(target, opts) {
     },
 
     "Bundles Downloaded": {
-      source: statsSourceUrl("application.bundle.cache.*.*")
+      source: statsSourceUrl("application.bundle.cache.*.*"),
       TimeSeries: {
         parent: '#g1-2',
         title: "# bundles"
@@ -24,7 +24,7 @@ function statsSourceUrl(target, opts) {
     },
 
     "Recruitments": {
-      source: statsSourceUrl("recruitment.delta", {"from": "-1day"})
+      source: statsSourceUrl("recruitment.delta", {"from": "-1day"}),
       TimeSeries: {
         parent: '#g1-3',
         title: "recruitments delta"
@@ -32,7 +32,7 @@ function statsSourceUrl(target, opts) {
     },
 
     "Applicants": {
-      source: statsSourceUrl("applicant.delta", {"from": "-1day"})
+      source: statsSourceUrl("applicant.delta", {"from": "-1day"}),
       TimeSeries: {
         parent: '#g2-1',
         title: "applicants delta"
@@ -40,7 +40,7 @@ function statsSourceUrl(target, opts) {
     },
 
     "References": {
-      source: statsSourceUrl("reference.delta", {"from": "-1day"})
+      source: statsSourceUrl("reference.delta", {"from": "-1day"}),
       TimeSeries: {
         parent: '#g2-2',
         title: "references delta"
@@ -48,7 +48,7 @@ function statsSourceUrl(target, opts) {
     },
 
     "Applicant Login": {
-      source: statsSourceUrl("applicant.login.success")
+      source: statsSourceUrl("applicant.login.success"),
       TimeSeries: {
         parent: '#g2-3',
         title: "# applicant logins"
@@ -56,7 +56,7 @@ function statsSourceUrl(target, opts) {
     },
 
     "Applicant Login Failures": {
-      source: statsSourceUrl("applicant.login.failure")
+      source: statsSourceUrl("applicant.login.failure"),
       TimeSeries: {
         parent: '#g3-1',
         title: "# applicant login failures"
@@ -64,7 +64,7 @@ function statsSourceUrl(target, opts) {
     },
 
     "Reference Login": {
-      source: statsSourceUrl("reference.login.success")
+      source: statsSourceUrl("reference.login.success"),
       TimeSeries: {
         parent: '#g3-2',
         title: "# reference logins"
@@ -72,7 +72,7 @@ function statsSourceUrl(target, opts) {
     },
 
     "Reference Login Failures": {
-      source: statsSourceUrl("reference.login.failure.*")
+      source: statsSourceUrl("reference.login.failure.*"),
       TimeSeries: {
         parent: '#g3-3',
         title: "# reference login failures"
@@ -80,7 +80,7 @@ function statsSourceUrl(target, opts) {
     },
 
     "Applicant Forgot Password": {
-      source: statsSourceUrl("applicant.forgot.*")
+      source: statsSourceUrl("applicant.forgot.*"),
       TimeSeries: {
         parent: '#g4-1',
         title: "# applicant forgot password"
@@ -88,7 +88,7 @@ function statsSourceUrl(target, opts) {
     },
 
     "Applicant Contact Us": {
-      source: statsSourceUrl("applicant.contact.*.*")
+      source: statsSourceUrl("applicant.contact.*.*"),
       TimeSeries: {
         parent: '#g4-2',
         title: "# applicant contact us"
@@ -96,7 +96,7 @@ function statsSourceUrl(target, opts) {
     },
 
     "Reference Contact Us": {
-      source: statsSourceUrl("reference.contact.*.*")
+      source: statsSourceUrl("reference.contact.*.*"),
       TimeSeries: {
         parent: '#g4-3',
         title: "# reference contact us"
