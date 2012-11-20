@@ -34,26 +34,26 @@
           },
 
           "Recruitments": {
-            source: statsSourceUrl("recruitment.delta", {"from": "-1day"}),
+            source: statsSourceUrl("recruitment.count", {"from": "-1week"}),
             TimeSeries: {
               parent: '#g1-3',
-              title: "recruitments delta"
+              title: "recruitments count"
             }
           },
 
           "Applicants": {
-            source: statsSourceUrl("applicant.delta", {"from": "-1day"}),
+            source: statsSourceUrl("applicant.count", {"from": "-1week"}),
             TimeSeries: {
               parent: '#g2-1',
-              title: "applicants delta"
+              title: "applicants count"
             }
           },
 
           "References": {
-            source: statsSourceUrl("reference.delta", {"from": "-1day"}),
+            source: statsSourceUrl("reference.count", {"from": "-1week"}),
             TimeSeries: {
               parent: '#g2-2',
-              title: "references delta"
+              title: "references count"
             }
           },
 
