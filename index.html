@@ -4,14 +4,18 @@
     <title>Dashboard</title>
     <link rel="stylesheet" href="/build/index.css" type="text/css" media="screen" charset="utf-8">
 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <script type="text/javascript" src="vendor/js/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="build/index.js"></script>    
     <script type="text/javascript">
       function statsSourceUrl(target, opts) {
         opts = opts || {};
-        from = opts.from || "-1hour";
+        from = opts.from || "-1week";
         return "http://stats.oit.uci.edu:8080/render/?from=" + from + "&format=json&_salt=1352477600.709&target=stats_counts.recruit." + target;
       }
+
+      var width = '360';
 
       $(function() {
         var description;
@@ -21,7 +25,7 @@
             source: statsSourceUrl("requests"),
             TimeSeries: {
               parent: '#g1-1',
-              title: "# requests"
+              title: "requests/day"
             }
           },
 
@@ -29,31 +33,31 @@
             source: statsSourceUrl("application.bundle.cache.*.*"),
             TimeSeries: {
               parent: '#g1-2',
-              title: "# bundles"
+              title: "bundles/day"
             }
           },
 
           "Recruitments": {
-            source: statsSourceUrl("recruitment.count", {"from": "-1week"}),
+            source: statsSourceUrl("recruitment.count"),
             TimeSeries: {
               parent: '#g1-3',
-              title: "recruitments count"
+              title: "new recruitments/day"
             }
           },
 
           "Applicants": {
-            source: statsSourceUrl("applicant.count", {"from": "-1week"}),
+            source: statsSourceUrl("applicant.count"),
             TimeSeries: {
               parent: '#g2-1',
-              title: "applicants count"
+              title: "new applicants/day"
             }
           },
 
           "References": {
-            source: statsSourceUrl("reference.count", {"from": "-1week"}),
+            source: statsSourceUrl("reference.count"),
             TimeSeries: {
               parent: '#g2-2',
-              title: "references count"
+              title: "new references/day"
             }
           },
 
@@ -61,39 +65,39 @@
             source: statsSourceUrl("applicant.login.success"),
             TimeSeries: {
               parent: '#g2-3',
-              title: "# applicant logins"
-            }
-          },
-
-          "Applicant Login Failures": {
-            source: statsSourceUrl("applicant.login.failure"),
-            TimeSeries: {
-              parent: '#g3-1',
-              title: "# applicant login failures"
+              title: "applicant logins/day"
             }
           },
 
           "Reference Login": {
             source: statsSourceUrl("reference.login.success"),
             TimeSeries: {
-              parent: '#g3-2',
-              title: "# reference logins"
+              parent: '#g3-1',
+              title: "reference logins/day"
             }
           },
 
-          "Reference Login Failures": {
-            source: statsSourceUrl("reference.login.failure.*"),
+          "Application Comments": {
+            source: statsSourceUrl("comment.position_application.count"),
+            TimeSeries: {
+              parent: '#g3-2',
+              title: "application comments/day"
+            }
+          },
+
+          "Ad Source": {
+            source: statsSourceUrl("ad_source.proof_of_advertisements.count"),
             TimeSeries: {
               parent: '#g3-3',
-              title: "# reference login failures"
+              title: "new ad sources/day"
             }
           },
 
-          "Applicant Forgot Password": {
-            source: statsSourceUrl("applicant.forgot.*"),
+          "Application Files": {
+            source: statsSourceUrl("position_application.application_files.count"),
             TimeSeries: {
               parent: '#g4-1',
-              title: "# applicant forgot password"
+              title: "new application files/day"
             }
           },
 
@@ -149,6 +153,7 @@
        */
       svg.tsview{
         background:none;
+	width: 370px;
       }
       .ggview .gauge circle.outer{
         stroke:none;
