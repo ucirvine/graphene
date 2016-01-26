@@ -4,24 +4,49 @@
     <title>Dashboard</title>
     <link rel="stylesheet" href="/build/index.css" type="text/css" media="screen" charset="utf-8">
 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <script type="text/javascript" src="vendor/js/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="vendor/js/purl.js"></script>
     <script type="text/javascript" src="build/index.js"></script>    
     <script type="text/javascript">
+
       function statsSourceUrl(target, opts) {
         opts = opts || {};
-        from = opts.from || "-1hour";
-        return "http://stats.oit.uci.edu:8080/render/?from=" + from + "&format=json&_salt=1352477600.709&target=stats_counts.recruit." + target;
+        from = opts.from || $.url().param("window") || "-1week";
+        until = opts.from || $.url().param("until") || "now";
+        baseUrl = opts.from || $.url().param("env") || "recruit";
+        return "http://" + document.location.host + ":8080/render/?from=" + from + "&until=" + until + "&format=json&_salt=1352477600.709&target=stats_counts." + baseUrl + "." + target;
       }
 
       $(function() {
+			  $(document).on('click', 'a[data-params]', function(event) {
+			  	var params = $.url().param();
+			  	var dataParams = JSON.parse($(event.target).attr("data-params"));
+			  	document.location = "/?" + $.param($.extend(params, dataParams));
+	      });
+
+				var currentParams = $.url().param();
+				$('a[data-params]').each(function(event) {
+				  var params = JSON.parse($(this).attr('data-params'));
+					var isMatched = true;
+					$.each(params, function(key, value) {
+						isMatched = isMatched && (currentParams[key] == value)
+				  });
+
+					if (isMatched) {
+					  $(this).addClass('current');
+					}
+				});
+
         var description;
         description = {
 
           "# Requests": {
-            source: statsSourceUrl("requests"),
+            source: statsSourceUrl("requests.count"),
             TimeSeries: {
               parent: '#g1-1',
-              title: "# requests"
+              title: "requests/day"
             }
           },
 
@@ -29,71 +54,71 @@
             source: statsSourceUrl("application.bundle.cache.*.*"),
             TimeSeries: {
               parent: '#g1-2',
-              title: "# bundles"
+              title: "bundles/day"
             }
           },
 
           "Recruitments": {
-            source: statsSourceUrl("recruitment.delta", {"from": "-1day"}),
+            source: statsSourceUrl("recruitment.count"),
             TimeSeries: {
               parent: '#g1-3',
-              title: "recruitments delta"
+              title: "new recruitments/day"
             }
           },
 
           "Applicants": {
-            source: statsSourceUrl("applicant.delta", {"from": "-1day"}),
+            source: statsSourceUrl("applicant.count"),
             TimeSeries: {
               parent: '#g2-1',
-              title: "applicants delta"
+              title: "new applicants/day"
             }
           },
 
           "References": {
-            source: statsSourceUrl("reference.delta", {"from": "-1day"}),
+            source: statsSourceUrl("reference.count"),
             TimeSeries: {
               parent: '#g2-2',
-              title: "references delta"
+              title: "new references/day"
             }
           },
 
           "Applicant Login": {
-            source: statsSourceUrl("applicant.login.success"),
+            source: statsSourceUrl("applicant.login.*"),
             TimeSeries: {
               parent: '#g2-3',
-              title: "# applicant logins"
-            }
-          },
-
-          "Applicant Login Failures": {
-            source: statsSourceUrl("applicant.login.failure"),
-            TimeSeries: {
-              parent: '#g3-1',
-              title: "# applicant login failures"
+              title: "applicant logins/day"
             }
           },
 
           "Reference Login": {
             source: statsSourceUrl("reference.login.success"),
             TimeSeries: {
-              parent: '#g3-2',
-              title: "# reference logins"
+              parent: '#g3-1',
+              title: "reference logins/day"
             }
           },
 
-          "Reference Login Failures": {
-            source: statsSourceUrl("reference.login.failure.*"),
+          "Application Comments": {
+            source: statsSourceUrl("comment.application.count"),
+            TimeSeries: {
+              parent: '#g3-2',
+              title: "application comments/day"
+            }
+          },
+
+          "Ad Source": {
+            source: statsSourceUrl("approval.count"),
             TimeSeries: {
               parent: '#g3-3',
-              title: "# reference login failures"
+              title: "new approvals/day"
             }
           },
 
-          "Applicant Forgot Password": {
-            source: statsSourceUrl("applicant.forgot.*"),
+          "Application Files": {
+            source: statsSourceUrl("application.application_files.count"),
             TimeSeries: {
               parent: '#g4-1',
-              title: "# applicant forgot password"
+              title: "new application files/day"
             }
           },
 
@@ -101,7 +126,7 @@
             source: statsSourceUrl("applicant.contact.*.*"),
             TimeSeries: {
               parent: '#g4-2',
-              title: "# applicant contact us"
+              title: "# applicant contact us/day"
             }
           },
 
@@ -169,7 +194,23 @@
   <body>
 
     <div id="dashboard" class="container-fluid">
-      <a href='http://stats.oit.uci.edu:8080'>Visit Graphite</a>
+      <a href='http://stats.oit.uci.edu:8080'>Visit Graphite</a> //
+			Window:
+      <a href='#' data-params='{"window": "-1week"}'>Week</a> |
+      <a href='#' data-params='{"window": "-1month"}'>Month</a> |
+      <a href='#' data-params='{"window": "-1year"}'>Year</a> //
+			Campus:
+      <a href='#' data-params='{"env": "recruit"}'>All UC</a> |
+      <a href='#' data-params='{"env": "recruit.env.recruit_ucb_production"}'>UCB</a> |
+      <a href='#' data-params='{"env": "recruit.env.recruit_ucd_production"}'>UCD</a> |
+      <a href='#' data-params='{"env": "recruit.env.recruit_uci_production"}'>UCI</a> |
+      <a href='#' data-params='{"env": "recruit.env.recruit_ucla_production"}'>UCLA</a> |
+      <a href='#' data-params='{"env": "recruit.env.recruit_ucm_production"}'>UCM</a> |
+      <a href='#' data-params='{"env": "recruit.env.recruit_ucr_production"}'>UCR</a> |
+      <a href='#' data-params='{"env": "recruit.env.recruit_ucsb_production"}'>UCSB</a> |
+      <a href='#' data-params='{"env": "recruit.env.recruit_ucsc_production"}'>UCSC</a> |
+      <a href='#' data-params='{"env": "recruit.env.recruit_ucsd_production"}'>UCSD</a> |
+      <a href='#' data-params='{"env": "recruit.env.recruit_ucsf_production"}'>UCSF</a>
       <h1>
         UC Recruit Dashboard
       </h1>
